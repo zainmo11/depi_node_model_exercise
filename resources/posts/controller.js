@@ -2,12 +2,16 @@ const Post = require("./model");
 
 const getAllPosts = async (req, res) => {
     try {
-        const posts = await Post.find();
+        const posts = await Post.find().populate({ path: 'user_id', select: 'name' });
+        if (!posts || posts.length === 0) {
+            return res.status(404).json({ message: 'No posts found' });
+        }
         res.json(posts);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 };
+
 
 const getPostById = async (req, res) => {
     try {

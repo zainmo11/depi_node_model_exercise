@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const Post = require('./resources/posts/model');
 const app = express();
 const router = require('./routes');
-
+const jwt = require('jsonwebtoken');
 // variable
 const port = process.env.PORT || 3000;
 const db = process.env.DB_URL
@@ -13,6 +13,10 @@ const db = process.env.DB_URL
 // middleware
 app.use(express.json());
 app.use(morgan('dev'));
+app.use((req, res, next) => {
+    console.log('Time:', Date.now());
+    next();
+});
 
 
 // Routes
